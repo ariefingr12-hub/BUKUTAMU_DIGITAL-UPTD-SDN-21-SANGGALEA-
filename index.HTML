@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buku Tamu Digital - Modern High Tech</title>
+    <title>Buku Tamu Digital - UPTD SDN 21 SANGGALEA</title>
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -27,8 +27,6 @@
             font-family: 'Rajdhani', sans-serif;
             color: var(--secondary-gray);
             min-height: 100vh;
-            
-            /* Background gradien dinamis yang elegan */
             background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #1a2a6c);
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
@@ -40,7 +38,12 @@
             padding: 40px 20px;
         }
 
-        /* --- HEADER & LOGO --- */
+        /* --- SEMBUNYIKAN KOP SURAT DI TAMPILAN WEB --- */
+        .kop-surat {
+            display: none;
+        }
+
+        /* --- HEADER & LOGO WEB --- */
         header {
             text-align: center;
             margin-bottom: 30px;
@@ -65,7 +68,7 @@
             font-weight: 700;
         }
 
-        /* --- INFO SEKOLAH (VISI & FOTO GTK) --- */
+        /* --- INFO SEKOLAH --- */
         .info-sekolah-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -111,7 +114,6 @@
             overflow: hidden;
         }
 
-        /* --- PERBAIKAN FOTO GTK --- */
         .foto-gtk {
             width: 100%;
             height: auto;
@@ -197,7 +199,6 @@
             transform: translateY(-2px);
         }
 
-        /* --- TOMBOL HAPUS --- */
         .btn-delete {
             background: rgba(255, 59, 48, 0.1);
             color: #ff3b30;
@@ -313,30 +314,125 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- ANIMASI BACKGROUND GRADIENT --- */
         @keyframes gradientBG {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
+        /* ======================================================== */
+        /* --- PENGATURAN KHUSUS UNTUK HASIL CETAK (PRINT) --- */
+        /* ======================================================== */
         @media print {
-            body { background: white; color: black; }
+            /* Reset Background & Warna Font */
+            body { 
+                background: white; 
+                color: black; 
+                font-family: 'Times New Roman', Times, serif; /* Font resmi persuratan */
+            }
+            
+            /* Sembunyikan elemen yang tidak perlu dicetak */
             .no-print { display: none !important; }
-            .data-section { box-shadow: none; border: none; background: transparent; padding: 0; }
-            header { margin-bottom: 20px; }
-            .logo-instansi { max-width: 100px; }
-            th, td { border: 1px solid #ccc; color: black; padding: 8px; }
-            table { border-collapse: collapse; min-width: 100%; }
-            .badge-khusus, .badge-umum { border: none; color: black; background: transparent; padding: 0; font-weight: normal; }
+            header { display: none !important; } /* Sembunyikan header web */
+            
+            /* Hapus style box web */
+            .data-section { 
+                box-shadow: none; 
+                border: none; 
+                background: transparent; 
+                padding: 0; 
+                margin: 0; 
+            }
+
+            /* --- TAMPILKAN KOP SURAT --- */
+            .kop-surat {
+                display: flex !important;
+                align-items: center;
+                border-bottom: 3px solid black; /* Garis bawah kop */
+                padding-bottom: 10px;
+                margin-bottom: 20px;
+            }
+
+            .kop-surat img {
+                width: 100px;
+                height: auto;
+                margin-right: 20px;
+            }
+
+            .kop-text {
+                flex: 1;
+                text-align: center;
+                line-height: 1.2;
+            }
+
+            .kop-text h3 { margin: 0; font-size: 14pt; font-weight: normal; }
+            .kop-text h2 { margin: 0; font-size: 16pt; font-weight: bold; }
+            .kop-text h1 { margin: 0; font-size: 18pt; font-weight: bold; letter-spacing: 1px;}
+            .kop-text p { margin: 5px 0 0 0; font-size: 10pt; }
+
+            /* --- JUDUL TABEL DI TENGAH --- */
+            .header-data { 
+                justify-content: center !important; 
+                margin-bottom: 15px; 
+            }
+            .header-data h2 { 
+                color: black !important; 
+                font-size: 16pt; 
+                text-align: center; 
+                text-transform: uppercase; 
+                text-decoration: underline; 
+            }
+
+            /* --- FORMAT TABEL CETAK --- */
+            table { 
+                border-collapse: collapse; 
+                width: 100%; 
+                min-width: 100%; 
+            }
+            th, td { 
+                border: 1px solid black; 
+                color: black; 
+                padding: 8px 10px; 
+                font-size: 11pt; 
+                text-align: center; /* Teks di tengah agar rapi */
+            }
+            th { 
+                background-color: #f2f2f2 !important; 
+                -webkit-print-color-adjust: exact; 
+                color: black !important; 
+                font-weight: bold;
+            }
+            td:nth-child(2), td:nth-child(3), td:nth-child(5), td:nth-child(6) {
+                text-align: left; /* Khusus kolom nama, instansi, tujuan, pesan rata kiri */
+            }
+            
+            /* Hapus format warna badge */
+            .badge-khusus, .badge-umum { 
+                border: none; 
+                color: black; 
+                background: transparent; 
+                padding: 0; 
+                font-weight: normal; 
+            }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
+
+        <div class="kop-surat">
+            <img src="logo.png" alt="Logo Instansi">
+            <div class="kop-text">
+                <h3>PEMERINTAH KABUPATEN MAROS</h3>
+                <h2>DINAS PENDIDIKAN DAN KEBUDAYAAN</h2>
+                <h1>UPTD SDN 21 SANGGALEA</h1>
+                <p>ALAMAT: JL. GARUDA NO. 11 KEL. TARO ADA KEC. TURIKALE. KAB. MAROS. KODE POS. 90516</p>
+            </div>
+        </div>
+
         <header>
-            <img src="logo.png" alt="Logo Sekolah" class="logo-instansi">
+            <img src="logo.png.jpg" alt="Logo Sekolah" class="logo-instansi">
             <h1 class="no-print">Buku Tamu Digital</h1>
         </header>
 
